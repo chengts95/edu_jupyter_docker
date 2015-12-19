@@ -15,8 +15,9 @@ RUN chmod 440 /etc/sudoers
 RUN apt-get update
 RUN apt-get upgrade -y
 
-RUN apt-get install python3-matplotlib -y
+RUN apt-get build-dep python3-matplotlib -y
 RUN apt-get build-dep python3-scipy -y
+RUN pip3 install -U jupyter
 RUN pip3 install numpy
 RUN pip3 install matplotlib
 RUN pip3 install scipy
