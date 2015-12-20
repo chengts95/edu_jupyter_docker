@@ -8,22 +8,24 @@
 FROM jupyter/jupyterhub:latest
 
 MAINTAINER cts <chengts95@163.com>
-RUN useradd -m "cts" -p "123456"
-RUN chmod 777 /etc/sudoers
-RUN echo "cts ALL=(ALL) ALL">/etc/sudoers
-RUN chmod 440 /etc/sudoers
-RUN apt-get update
-RUN apt-get upgrade -y
+RUN useradd -m "cts" -p "123456" && \
+chmod 777 /etc/sudoers && \
+echo "cts ALL=(ALL) ALL">/etc/sudoers && \
+chmod 440 /etc/sudoers && \
+apt-get update && \
+apt-get upgrade -y
 
-RUN apt-get build-dep python3-matplotlib -y
-RUN apt-get build-dep python3-scipy -y
-RUN pip3 install -U jupyter
-RUN pip3 install numpy
-RUN pip3 install matplotlib
-RUN pip3 install scipy
-RUN pip3 install nbgrader
-RUN nbgrader extension install
-RUN echo "cts:123456" | chpasswd
+RUN apt-get build-dep python3-matplotlib -y && \
+    apt-get build-dep python3-scipy -y && \
+    pip3 install -U jupyter && \
+    pip3 install numpy && \
+    pip3 install matplotlib && \
+    pip3 install scipy && \
+    pip3 install sympy && \
+    pip3 install nbgrader && \
+    nbgrader extension install && \
+    echo "cts:123456" | chpasswd && \
+    apt-get autoclean -y
 ADD jupyterhub_config.py /srv/jupyterhub/
 
 WORKDIR /home/cts
@@ -35,10 +37,11 @@ RUN apt-get install openssh-server -y
 EXPOSE 22
 RUN service ssh start
 
-RUN mkdir /srv/nbgrader
-RUN mkdir /srv/nbgrader/exchange
-RUN chmod -R 777 /srv/nbgrader
+RUN mkdir /srv/nbgrader && \
+    mkdir /srv/nbgrader/exchange && \
+    chmod -R 777 /srv/nbgrader
+
 WORKDIR /srv/jupyterhub/
-ADD jupyterhub_config.py /srv/jupyterhub/
+
 
 CMD ["jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py"]
