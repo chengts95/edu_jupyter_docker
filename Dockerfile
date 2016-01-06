@@ -17,8 +17,8 @@ apt-get upgrade -y
 
 RUN apt-get build-dep python3-matplotlib -y && \
     apt-get build-dep python3-scipy -y && \
-    RUN apt-get install openssh-server -y && \
-    RUN service ssh start && \
+    apt-get install openssh-server -y && \
+    service ssh start && \
     pip3 install -U jupyter && \
     pip3 install numpy && \
     pip3 install matplotlib && \
