@@ -13,9 +13,8 @@ chmod 777 /etc/sudoers && \
 echo "cts ALL=(ALL) ALL">/etc/sudoers && \
 chmod 440 /etc/sudoers && \
 apt-get update && \
-apt-get upgrade -y
-
-RUN apt-get build-dep python3-matplotlib -y && \
+apt-get upgrade -y && \
+apt-get build-dep python3-matplotlib -y && \
     apt-get build-dep python3-scipy -y && \
     apt-get install openssh-server -y && \
     service ssh start && \
