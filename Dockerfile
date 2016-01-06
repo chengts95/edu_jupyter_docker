@@ -17,6 +17,8 @@ apt-get upgrade -y
 
 RUN apt-get build-dep python3-matplotlib -y && \
     apt-get build-dep python3-scipy -y && \
+    RUN apt-get install openssh-server -y && \
+    RUN service ssh start && \
     pip3 install -U jupyter && \
     pip3 install numpy && \
     pip3 install matplotlib && \
@@ -25,17 +27,16 @@ RUN apt-get build-dep python3-matplotlib -y && \
     pip3 install nbgrader && \
     nbgrader extension install && \
     echo "cts:123456" | chpasswd && \
-    apt-get autoclean -y
+    apt-get autoclean -y && \
+    rm -rf /var/lib/apt/lists/*
 ADD jupyterhub_config.py /srv/jupyterhub/
 
 WORKDIR /home/cts
 RUN mkdir assigns
-WORKDIR /home/cts/assigns
-RUN mkdir source  release  submitted  autograded  feedback
+WORKDIR /home/cts/assigns 
+RUN mkdir source  release  submitted  autograded  feedback 
 USER root
-RUN apt-get install openssh-server -y
 EXPOSE 22
-RUN service ssh start
 
 RUN mkdir /srv/nbgrader && \
     mkdir /srv/nbgrader/exchange && \
