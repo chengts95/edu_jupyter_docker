@@ -14,7 +14,9 @@ echo "cts ALL=(ALL) ALL">/etc/sudoers && \
 chmod 440 /etc/sudoers && \
 apt-get update && \
 apt-get upgrade -y && \
-apt-get build-dep python3-matplotlib -y && \
+apt-get autoclean -y 
+
+RUN apt-get build-dep python3-matplotlib -y && \
     apt-get build-dep python3-scipy -y && \
     apt-get install openssh-server -y && \
     service ssh start && \
@@ -26,8 +28,9 @@ apt-get build-dep python3-matplotlib -y && \
     pip3 install nbgrader && \
     nbgrader extension install && \
     echo "cts:123456" | chpasswd && \
-    apt-get autoclean -y && \
+    apt-get autoclean -y  && \
     rm -rf /var/lib/apt/lists/*
+    
 ADD jupyterhub_config.py /srv/jupyterhub/
 
 WORKDIR /home/cts
